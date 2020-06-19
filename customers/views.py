@@ -11,7 +11,7 @@ def register(request) :
     if request.method == 'POST' :
         u_form = UserRegisterForm(request.POST)
         c_form = CustomerResegiterForm(request.POST)
-        if u_form.is_valid() or c_form.is_valid():
+        if u_form.is_valid():
             new_user = u_form.save()
             c_form.instance.customer = new_user
             c_form.save()
@@ -22,7 +22,7 @@ def register(request) :
     else :
         u_form = UserRegisterForm()
         c_form = CustomerResegiterForm()
-        return render(request, 'register.html', {'uform': u_form, 'cform' : c_form})
+    return render(request, 'register.html', {'uform': u_form, 'cform' : c_form})
 
 @login_required
 def profile(request) :
