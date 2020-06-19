@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django.conf.global_settings
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'customers.apps.CustomersConfig',
+    'booking',
     'crispy_forms',
 ]
 
@@ -121,6 +124,23 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'profile'
+LOGIN_URL = 'login'
+
+
+DATE_INPUT_FORMATS = [
+    *django.conf.global_settings.DATE_INPUT_FORMATS,
+    '%d/%m/%Y',
+    '%Y/%m/%d'
+]
+
+BRAINTREE_PRODUCTION = True
+BAINTREE_MERCHANT_ID = "BAINTREE_MERCHANT_ID"
+BRAINTREE_PUBLIC_KEY = "BRAINTREE_PUBLIC_KEY"
+BRAINTREE_PRIVATE_KEY = "BRAINTREE_PRIVATE_KEY"

@@ -3,16 +3,38 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="content-section">
-        <div class="media">
-            <div class="media-body">
-                <h2 class="account-heading">{{ user.username }}</h2>
-                <p class="text-secondary">{{ user.email }}</p>
-                <p class="text-secondary">{{ user.first_name }}</p>
-                <p class="text-secondary">{{ user.last_name }}</p>
-                <p class="text-secondary">{{ user.customer.phone_number }}</p>
-
+<div class="row d-flex justify-content-center no-gutters">
+    <div class="col-md-6 order-md-last ftco-animate makereservation p-4 p-md-5 pt-5">
+        <div class="py-md-5">
+            <div class="heading-section ftco-animate mb-5 text-center">
+                <span class="subheading">Welcome</span>
+              <h2 class="mb-4">Profile Info</h2>
+            </div>
+            <h2 class="account-heading"> Hola  {{ user.username }} !</h2>
+            <p class="text-secondary"> <b> Your email </b> : {{ user.email }}</p>
+            <p class="text-secondary"> <b> Your First Name </b> : {{ user.first_name }}</p>
+            <p class="text-secondary"> <b> Your First Name </b> : {{ user.last_name }}</p>
+            <p class="text-secondary"> <b> Your Phone Number </b> : {{ user.customer.phone_number }}</p>
+            <div class="form-group mt-3">
+                <a href="{% url 'booking-list' %}" class="btn btn-primary py-3 px-4"> Your Booking History </a>
             </div>
         </div>
     </div>
+    <div class="col-md-6 order-md-last ftco-animate makereservation p-4 p-md-5 pt-5 border">
+        <div class="py-md-5">
+            <!-- FORM HERE -->
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4"> Update Profile Info </legend>
+                        {{ uform|crispy }}
+                        {{ pform|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-info py-2 px-3"> Update </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
 {% endblock content %}

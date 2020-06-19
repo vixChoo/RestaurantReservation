@@ -1,0 +1,25 @@
+
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row d-flex justify-content-center no-gutters">
+    <div class="col-md-6 order-md-last ftco-animate makereservation p-4 p-md-5 pt-5">
+        <div class="py-md-5">
+                <div class="heading-section ftco-animate mb-5 text-center">
+                    <span class="subheading">Book a table</span>
+                  <h2 class="mb-4">Make Reservation</h2>
+                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                        {{ form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary py-3 px-5"> Book Now </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

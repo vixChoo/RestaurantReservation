@@ -1,9 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect , HttpResponse
-from .forms import UserRegisterForm, CustomerResegiterForm
+from .forms import UserRegisterForm, CustomerResegiterForm, CustomerUpdateForm,UserUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-# from .models import Customer
 
 def home(request) :
     return HttpResponse('<h1>Blog Home</h1>')
@@ -27,4 +26,20 @@ def register(request) :
 
 @login_required
 def profile(request) :
-    return render(request,'profile.html')
+    if request.method == 'POST' :
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = CustomerUpdateForm(request.POST, request.FILES,instance=request.user.customer)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, f'Your account has been updated')
+            return redirect('profile')
+        
+    else :
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = CustomerUpdateForm(instance=request.user.customer)
+        return render(request,'profile.html', {'uform' : user_form, 'pform' : profile_form})
+
+
+
+    
