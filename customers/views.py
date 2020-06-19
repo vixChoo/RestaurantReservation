@@ -22,7 +22,7 @@ def register(request) :
     else :
         u_form = UserRegisterForm()
         c_form = CustomerResegiterForm()
-        return render(request, 'register.html', {'uform': u_form, 'cform' : c_form})
+    return render(request, 'register.html', {'uform': u_form, 'cform' : c_form})
 
 @login_required
 def profile(request) :
