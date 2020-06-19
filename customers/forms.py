@@ -6,7 +6,7 @@ from .models import Customer
 
 
 class UserRegisterForm(UserCreationForm) :
-    email = forms.EmailField()
+    email = forms.EmailField(label='Email Address')
 
     class Meta :
         model = User
@@ -14,6 +14,19 @@ class UserRegisterForm(UserCreationForm) :
 
 
 class CustomerResegiterForm(forms.ModelForm) :
+    class Meta :
+        model = Customer
+        fields = ['phone_number']
+
+
+class UserUpdateForm(forms.ModelForm) :
+     email = forms.EmailField()
+     
+     class Meta :
+         model = User
+         fields = ['first_name','last_name','username','email']
+
+class CustomerUpdateForm(forms.ModelForm):
     class Meta :
         model = Customer
         fields = ['phone_number']

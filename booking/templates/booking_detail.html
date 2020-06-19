@@ -1,0 +1,25 @@
+
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row d-flex justify-content-center no-gutters">
+    <div class="col-md-6 order-md-last ftco-animate makereservation p-4 p-md-5 pt-5">
+        <div class="py-md-5">
+            <h2>{{ object.customer.username }}</h2>
+            <p> <b>Reserved Date : </b> {{ object.reserve_date }} </p>
+            <p> <b>Reserved Time : </b> {{ object.reserve_time }} </p>
+            <p> <b>Status : </b> {{ object.status }} </p>
+            <p> <b>Meal Plan : </b> {{ object.meal_plan }} </p>
+            <p> <b>Number of People : </b> {{ object.people }} </p>
+            <p> <b>Description : </b> {{ object.desc }} </p>
+            <p> <b>Created at : </b> {{ object.date_created }} </p>
+        </div>
+        <div class="form-group mt-3">
+            <a href="{% url 'booking-list' %}" class="btn btn-secondary"> BACK </a>
+            <a href="{% url 'booking-update' booking.id %}" class="btn btn-info ml-3"> Update </a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

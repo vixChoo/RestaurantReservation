@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+<title>{% block title %} Booking History {% endblock title %}</title>
+
+{% block content %}
+<div class="row d-flex justify-content-center no-gutters">
+    <div class="col-md-6 order-md-last ftco-animate makereservation p-4 p-md-5 pt-5">
+        <div class="py-md-5">
+            <div class="heading-section ftco-animate mb-5 text-center">
+                <span class="subheading">Reservation</span>
+              <h2 class="mb-4">Booking History</h2>
+            </div>
+                {% if bookings %}
+                    {% for booking in bookings %}
+                        <h4><a href="{% url 'booking-detail' booking.id %}">Booking {{ booking.id }} on {{booking.reserve_date}} at {{booking.reserve_time}} </a> </h4>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center">
+                    <h4>Currently You Have Not Reserve a Table</h4>
+                        <a class="btn btn-light border py-2 px-3 mt-3" href="{% url 'booking-create' %}">Reserve Now</a>
+                    </div>
+                {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
