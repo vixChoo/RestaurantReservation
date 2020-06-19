@@ -3,50 +3,32 @@ from django.http import HttpResponseRedirect , HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-import braintree
+import braintree, os, stripe
 from django.conf import settings
 
-@login_required
-def checkout_page(request):
-    #generate all other required data that you may need on the #checkout page and add them to context.
-
-    if settings.BRAINTREE_PRODUCTION:
-        braintree_env = braintree.Environment.Production
-    else:
-        braintree_env = braintree.Environment.Sandbox
-
-    # Configure Braintree
-    braintree.Configuration.configure(
-        braintree_env,
-        merchant_id=settings.BRAINTREE_MERCHANT_ID,
-        public_key=settings.BRAINTREE_PUBLIC_KEY,
-        private_key=settings.BRAINTREE_PRIVATE_KEY,
-    )
- 
-    try:
-        braintree_client_token = braintree.ClientToken.generate({ "customer_id": user.id })
-    except:
-        braintree_client_token = braintree.ClientToken.generate({})
-
-    context = {'braintree_client_token': braintree_client_token}
-    return render(request, 'checkout.html', context)
+stripe.api_key = "sk_test_51GvhRuJF8iLkitsptTP8k3FSUpQrHdiBHDEuQ3wNuOMsf0tmGDKbugfd6gG2W0VS30KfebITPrgtrzU8K1BDvdDl00Cu8dnxcZ"
 
 @login_required
-def payment(request):
-    nonce_from_the_client = request.POST['paymentMethodNonce']
-    customer_kwargs = {
-        "first_name": request.user.first_name,
-        "last_name": request.user.last_name,
-        "email": request.user.email,
-    }
-    customer_create = braintree.Customer.create(customer_kwargs)
-    customer_id = customer_create.customer.id
-    result = braintree.Transaction.sale({
-        "amount": "10.00",
-        "payment_method_nonce": nonce_from_the_client,
-        "options": {
-            "submit_for_settlement": True
-        }
-    })
-    print(result)
-    return HttpResponse('Ok')
+def checkout(request):
+    if request.method == 'POST':
+        user = request.user
+
+        customer = stripe.Customer.create(
+            email = user.email,
+            name = user.first_name + user.last_name,
+            phone = user.customer.phone_number,
+            description="My First Test Customer (created for API docs)",
+            source = request.POST['stripeToken']
+            
+        )
+        charge = stripe.Charge.create(
+            customer=customer,
+            amount=2000,
+            currency="myr",
+            description="My 10PM testing)",
+        )
+        messages.success(request, f'PAYMENT SUCCESSFUL')
+
+    return render(request,'checkout.html')
+
+

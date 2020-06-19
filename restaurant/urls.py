@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from customers import views as cus_views
-from payment.views import checkout_page
+from payment.views import checkout
 
 
 urlpatterns = [
@@ -27,7 +27,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('profile/', cus_views.profile, name='profile'),
     path('',include('booking.urls')),
-    path('checkout', checkout_page, name="payment"),	
+    path('checkout/', checkout, name="checkout"),	
     
 
 
