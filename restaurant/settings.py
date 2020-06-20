@@ -146,4 +146,6 @@ if DEBUG :
     BRAINTREE_MERCHANT_ID = os.environ.get("BAINTREE_MERCHANT_ID")
     BRAINTREE_PUBLIC_KEY = os.environ.get("BRAINTREE_PUBLIC_KEY")
     BRAINTREE_PRIVATE_KEY = os.environ.get("BRAINTREE_PRIVATE_KEY")
+    STRIPE_PUBLIC_KEY = os.environ.get("stripe_PUBLIC_KEY")
+    STRIPE_PRIVATE_KEY = os.environ.get("stripe_PRIVATE_KEY")
 

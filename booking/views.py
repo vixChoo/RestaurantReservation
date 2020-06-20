@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect , HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView,DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.models import User
 from .models import Booking, MEAL
-from .extras import change_price
-from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from .forms import CreateForm
+from .extras import change_price
 
 
 

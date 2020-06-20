@@ -1,15 +1,17 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.urls import reverse
-from django.http import HttpResponseRedirect , HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth.models import User
-import braintree, os, stripe
-from django.conf import settings
 from booking.models import Booking, STATUS
 from .models import OrderBooking
+from .extras import booking_list
 
-stripe.api_key = "sk_test_51GvhRuJF8iLkitsptTP8k3FSUpQrHdiBHDEuQ3wNuOMsf0tmGDKbugfd6gG2W0VS30KfebITPrgtrzU8K1BDvdDl00Cu8dnxcZ"
+import braintree, os, stripe
+from django.conf import settings
+
+stripe.api_key = settings.STRIPE_PRIVATE_KEY
 
 
 @login_required()
@@ -18,15 +20,16 @@ def add_order(request, **kwargs):
     # filter bookings by id
     booking = Booking.objects.filter(id=kwargs.get('booking_id')).first()
     # create OrderBooking of the selected booking
-    order = OrderBooking.objects.get_or_create(booking=booking,customer=user)
-    return redirect('/payment/checkout/', order)
+    order, created = OrderBooking.objects.get_or_create(booking=booking,customer=user)
+    return redirect('/payment/checkout/', order.id)
 
 
 @login_required
 def checkout(request):
     user = request.user
-    order = OrderBooking.objects.filter(customer=user).first()
-    booking = order.booking
+    booking_id = booking_list(user)
+    booking = Booking.objects.filter(id=booking_id).first()
+    stripe_key = settings.STRIPE_PUBLIC_KEY
     if booking.status == 'Pending': 
         if request.method == 'POST':
             amount = booking.booking_fee
@@ -51,8 +54,8 @@ def checkout(request):
             return redirect('booking-detail' ,pk=booking.id)
     else:
         messages.warning(request, f'Payment Already Made!')
-        return redirect(reverse('booking-detail', args=[booking.pk]))
+        return redirect(reverse('booking-detail', args=[booking.id]))
 
-    return render(request,'checkout.html', {'order':order})
+    return render(request,'checkout.html', {'booking':booking,'stripe_key':stripe_key})
 
 

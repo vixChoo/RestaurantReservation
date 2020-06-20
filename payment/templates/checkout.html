@@ -42,8 +42,10 @@
     <div class="col-md-6 order-md-last ftco-animate makereservation p-4 p-md-5 pt-5">
         <div class="py-md-5">
           <div class="heading-section ftco-animate mb-5 text-center">
+            <span class="subheading">Thank You</span>
           <h2 class="mb-4">Checkout With Card</h2>
-            <h3> Amount : RM {{ order.booking.booking_fee }}</h3>
+            <h3> Amount : RM {{ booking.booking_fee }}</h3>
+            <p> For booking {{booking.id}}, {{ booking.meal_plan }} on {{booking.reserve_date}} </p>
         </div>
         <form action="{% url 'checkout' %}" method="post" id="payment-form">
             {% csrf_token %}
@@ -72,7 +74,7 @@
 {% block javascript %}
 <script>
     // Create a Stripe client.
-var stripe = Stripe('pk_test_51GvhRuJF8iLkitspZcB0Ly2dPfx9kTplsgRHncdPR8yrxEnG8OHrRACt0bA3oUGuZEYInlF22Peru1ZJAA6OzZGf00oFbGeauJ');
+var stripe = Stripe('{{stripe_key}}');
 
 // Create an instance of Elements.
 var elements = stripe.elements();
