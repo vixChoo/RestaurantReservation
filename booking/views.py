@@ -3,8 +3,10 @@ from django.http import HttpResponseRedirect , HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView,DeleteView
 from django.contrib.auth.models import User
 from .models import Booking, MEAL
+from .extras import change_price
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from .forms import CreateForm
+
 
 
 def home(request) :
@@ -17,18 +19,8 @@ class BookingCreateView(LoginRequiredMixin,CreateView):
     def form_valid(self, form):
         form.instance.customer = self.request.user
         meal_plan = form.instance.meal_plan
-        form.instance.booking_fee = self.change_price(meal_plan)
+        form.instance.booking_fee = change_price(meal_plan)
         return super().form_valid(form)
-
-    def change_price(self, meal_plan):
-        if meal_plan == MEAL[0][0]:  
-            booking_fee = 100 # breakfast
-        elif meal_plan == MEAL[1][0]:
-            booking_fee = 200 # lunch  
-        elif meal_plan == MEAL[2][0]:
-            booking_fee = 300 # dinner
-        
-        return booking_fee
 
 class BookingDetailView(DetailView) :
     model = Booking
@@ -46,6 +38,8 @@ class BookingUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
 
     def form_valid(self, form):
         form.instance.customer = self.request.user
+        meal_plan = form.instance.meal_plan
+        form.instance.booking_fee = change_price(meal_plan)
         return super().form_valid(form)
 
     def test_func(self):

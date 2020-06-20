@@ -25,9 +25,9 @@ def add_order(request, **kwargs):
 @login_required
 def checkout(request):
     user = request.user
-    order = OrderBooking.objects.filter(customer=user).last()
+    order = OrderBooking.objects.filter(customer=user).first()
     booking = order.booking
-    if booking.status == 'Pending':
+    if booking.status == 'Pending': 
         if request.method == 'POST':
             amount = booking.booking_fee
             customer = stripe.Customer.create(
