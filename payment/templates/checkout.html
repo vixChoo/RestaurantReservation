@@ -43,6 +43,7 @@
         <div class="py-md-5">
           <div class="heading-section ftco-animate mb-5 text-center">
           <h2 class="mb-4">Checkout With Card</h2>
+            <h3> Amount : RM {{ order.booking.booking_fee }}</h3>
         </div>
         <form action="{% url 'checkout' %}" method="post" id="payment-form">
             {% csrf_token %}

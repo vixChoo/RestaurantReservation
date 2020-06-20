@@ -20,7 +20,7 @@
         <div class="form-group mt-3">
             <a href="{% url 'booking-list' %}" class="btn btn-secondary"> BACK </a>
             <a href="{% url 'booking-update' object.id %}" class="btn btn-info ml-3"> Update </a>
-            <a href="{% url 'checkout' object.id %}" class="btn btn-success ml-3 px-4 py-3"> Pay Now </a>
+            <a href="{% url 'add_order' object.id %}" class="btn btn-success ml-3 px-4 py-3"> Pay Now </a>
         </div>
     </div>
 </div>

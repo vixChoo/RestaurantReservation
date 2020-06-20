@@ -8,8 +8,7 @@ from .forms import CreateForm
 
 
 def home(request) :
-    is_home = True
-    return render(request,'index.html',{'is_home':is_home, 'title': True})
+    return render(request,'index.html',{'is_home':True, 'title': True})
 
 # Login in is required
 class BookingCreateView(LoginRequiredMixin,CreateView):
