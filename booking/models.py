@@ -4,13 +4,13 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 STATUS = (
-    ('pending', 'Pending'),
-    ('confirm', 'Confirm')
+    ('Pending', 'Pending'),
+    ('Confirm', 'Confirm')
 )
 MEAL = (
-    ('breakfast', 'Breakfast'),
-    ('lunch', 'Lunch'),
-    ('dinner', 'Dinner')
+    ('Breakfast', 'Breakfast -- RM 100'),
+    ('Lunch', 'Lunch -- RM 200'),
+    ('Dinner', 'Dinner -- RM 300')
 )
 
 # Create your models here.
@@ -23,6 +23,7 @@ class Booking(models.Model) :
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateTimeField(default=timezone.now)
     desc = models.TextField(blank=True)
+    price = models.PositiveIntegerField()
 
     def __str__(self):
         return f'{self.customer.username} {str(self.pk)}'

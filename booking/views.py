@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect , HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView,DeleteView
 from django.contrib.auth.models import User
-from .models import Booking
+from .models import Booking, MEAL
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from .forms import CreateForm
 
@@ -17,7 +17,19 @@ class BookingCreateView(LoginRequiredMixin,CreateView):
 
     def form_valid(self, form):
         form.instance.customer = self.request.user
+        meal_plan = form.instance.meal_plan
+        form.instance.booking_fees = self.change_price(meal_plan)
         return super().form_valid(form)
+
+    def change_price(self, meal_plan):
+        if meal_plan == MEAL[0][0]:  
+            booking_fees = 100 # breakfast
+        elif meal_plan == MEAL[1][0]:
+            booking_fees = 200 # lunch  
+        elif meal_plan == MEAL[2][0]:
+            booking_fees = 300 # dinner
+        
+        return booking_fees
 
 class BookingDetailView(DetailView) :
     model = Booking
