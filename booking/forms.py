@@ -1,5 +1,5 @@
 from django import forms
-from .models import Booking, MEAL
+from .models import Booking
 import datetime
 from django.core.exceptions import ValidationError
 from django.conf import settings
@@ -26,5 +26,4 @@ class CreateForm(forms.ModelForm) :
         fields = ['meal_plan','reserve_date','reserve_time', 'people','desc']
 
 
-          
-
+        
