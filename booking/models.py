@@ -23,7 +23,7 @@ class Booking(models.Model) :
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateTimeField(default=timezone.now)
     desc = models.TextField(blank=True)
-    price = models.PositiveIntegerField()
+    booking_fee = models.PositiveIntegerField()
 
     def __str__(self):
         return f'{self.customer.username} {str(self.pk)}'
