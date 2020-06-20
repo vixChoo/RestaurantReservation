@@ -1,6 +1,6 @@
 # Restaurant Reservation built with Python Django 3.0 in 3 days 
 
-![Home Page](static/images/homepage.png)
+![Home Page](static/reservation/images/homepage.png)
 
 ## Frameworks
 
