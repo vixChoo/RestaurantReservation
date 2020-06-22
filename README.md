@@ -14,3 +14,8 @@
 - Customer
 - Booking 
 - Payment 
+
+## Stripe Payment
+    Test Card as below
+    - 4242 4242 4242 4242
+    - Randam Numbers afterward
