@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import django.conf.global_settings
 import django_heroku
 import sys
 
